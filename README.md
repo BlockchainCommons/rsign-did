@@ -1,4 +1,5 @@
 # Blockchain Commons torgap-sig-cli-rust
+### _by Gorazd Kovacic and Christopher Allen_
 
 `torgap-sig-cli-rust` is a fork of [rsign2](https://github.com/jedisct1/rsign2), a Rust implementation of [Minisign](https://jedisct1.github.io/minisign/), with support for
 Tor onion v3 hidden service keys.

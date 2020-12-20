@@ -119,6 +119,32 @@ pub fn parse_args<'a>() -> clap::ArgMatches<'a> {
                 ),
         )
         .subcommand(
+            SubCommand::with_name("generate-child-keypair")
+                .about("Generate a child private and public key from a secret key according to SLIP010. \nFirst password will be prompted to decrypt your current secret key. Then a new password will be prompted to encrypt the child key")
+                .arg(
+                    Arg::with_name("sk_path")
+                        .short("s")
+                        .long("secret-key-path")
+                        .takes_value(true)
+                        .value_name("SECRET_KEY_PATH")
+                        .help("path to the secret key"),
+                )
+                .arg(
+                    Arg::with_name("chain")
+                        .long("chain")
+                        .takes_value(true)
+                        .value_name("CHAIN")
+                        .required(true)
+                        .help("e.g. 'm/0H/1H' Only hardened derivation supported"),
+                )
+                .arg(
+                    Arg::with_name("force")
+                        .short("f")
+                        .long("force")
+                        .help("force generate a new keypair"),
+                ),
+        )
+        .subcommand(
             SubCommand::with_name("verify")
                 .about("Verify a signed file with a given public key")
                 .arg(

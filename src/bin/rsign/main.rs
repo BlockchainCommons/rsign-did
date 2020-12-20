@@ -36,7 +36,7 @@ where
 {
     let pk_path = pk_path.as_ref();
     let sk_path = sk_path.as_ref();
-    if pk_path.exists() {
+    if pk_path.exists() || sk_path.exists() {
         if !force {
             return Err(PError::new(
                 ErrorKind::Io,
@@ -49,7 +49,8 @@ force this operation.",
                 ),
             ));
         } else {
-            std::fs::remove_file(&pk_path)?;
+            let _ = std::fs::remove_file(&sk_path);
+            let _ = std::fs::remove_file(&pk_path);
         }
     }
     let mut pk_writer = create_file(&pk_path, 0o644)?;
@@ -393,6 +394,41 @@ fn run(args: clap::ArgMatches) -> Result<()> {
         cmd_convert_to_onion_keys(force, &tor_sk_path, &tor_pk_path, &tor_onion_path, &sk_path)?;
 
         Ok(())
+    } else if let Some(onion) = args.subcommand_matches("generate-child-keypair") {
+        let sk_path = get_sk_path(onion.value_of("sk_path"))?; // safe
+        let force = onion.is_present("force");
+        let chain = onion.value_of("chain").unwrap(); // safe
+        let sk = SecretKey::from_file(&sk_path, None)?;
+
+        let mut child_priv_path = sk_path.clone();
+        child_priv_path.pop();
+        child_priv_path.push(SIG_DEFAULT_CHILD_PRIV_FILE);
+
+        let mut child_pub_path = sk_path.clone();
+        child_pub_path.pop();
+        child_pub_path.push(SIG_DEFAULT_CHILD_PUB_FILE);
+
+        let child = slip10_derive_a_child(Some(sk), None, chain)?;
+
+        let KeyPair { .. } = cmd_generate(
+            force,
+            &child_pub_path,
+            &child_priv_path,
+            Some(chain),
+            Some(child),
+        )?;
+
+        println!(
+            "\nYour child private key was saved as {}",
+            child_priv_path.display()
+        );
+
+        println!(
+            "Your child public key was saved as {}\n",
+            child_pub_path.display()
+        );
+
+        Ok(())
     } else if let Some(onion) = args.subcommand_matches("export-to-tor-auth-keys") {
         let force = onion.is_present("force");
         let sk_path = get_sk_path(onion.value_of("sk_path"))?;
@@ -413,7 +449,7 @@ fn run(args: clap::ArgMatches) -> Result<()> {
             let hname: String;
             if let Some(host) = onion.value_of("tor-hostname") {
                 hname = String::from(host);
-            } else if let Ok(host) = fs::read_to_string(hostname_path) {
+            } else if let Ok(host) = fs::read_to_string(hostname_path.clone()) {
                 hname = host;
             } else {
                 return Err(PError::new(
@@ -424,6 +460,14 @@ fn run(args: clap::ArgMatches) -> Result<()> {
             hname
         };
         cmd_convert_to_tor_auth_keys(force, &tor_sk_path, &tor_pk_path, &sk_path, &hostname[..])?;
+
+        println!(
+            "\nFiles generated: {}, {}, {}",
+            tor_sk_path.display(),
+            tor_pk_path.display(),
+            hostname_path.display(),
+        );
+
         Ok(())
     } else if let Some(onion) = args.subcommand_matches("generate-did") {
         let sk_path = get_sk_path(onion.value_of("sk_path"))?;
@@ -432,8 +476,11 @@ fn run(args: clap::ArgMatches) -> Result<()> {
         did_path.pop();
         did_path.push(SIG_DEFAULT_DID_FILE);
         // overwrite file it it already exists
-        let did_writer = fs::File::create(did_path).unwrap();
+        let did_writer = fs::File::create(did_path.clone()).unwrap();
         generate_did_document(&did_writer, sk)?;
+
+        println!("\nFile generated: {}", did_path.display());
+
         Ok(())
     } else if let Some(sign_action) = args.subcommand_matches("sign") {
         let sk_path = get_sk_path(sign_action.value_of("sk_path"))?;

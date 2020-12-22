@@ -24,6 +24,12 @@ If you want to **generate keys from a deterministic seed** you can pass a hex st
 rsign generate --seed 12a9e759cb410b4ca3a57a494939704e4bf71a59f01b94ea2740f15d3dc8f9ea
 ```
 
+Once you have a secret key generated you can also **derive its children** according to **SLIP010**:
+
+```sh
+rsign generate-child-keypair --chain m/1H/0H/5H
+```
+
 You can then **sign a file** (`myfile.txt`) with your secret key:
 
 ```sh
@@ -94,6 +100,9 @@ SUBCOMMANDS:
     export-to-onion-keys       Convert minisign secret key to Tor hidden service keys and hostname
     export-to-tor-auth-keys    Convert minisign secret key to Tor V3 Client Authentication Keys
     generate                   Generate minisign public and secret keys
+    generate-child-keypair     Generate a child private and public key from a secret key according to SLIP010.
+                               First password will be prompted to decrypt your current secret key. Then a new
+                               password will be prompted to encrypt the child key
     generate-did               Generate DID document from a minisign secret key
     help                       Prints this message or the help of the given subcommand(s)
     sign                       Sign a file with a given private key

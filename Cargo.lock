@@ -318,7 +318,7 @@ checksum = "1482821306169ec4d07f6aca392a4681f66c75c9918aa49641a2595db64053cb"
 [[package]]
 name = "minisign"
 version = "0.5.22"
-source = "git+https://github.com/BlockchainCommons/torgap-sig.git?branch=master#a132114b8548347dd0f1bb81d142e90b504d1fc4"
+source = "git+https://github.com/BlockchainCommons/torgap-sig.git?branch=master#67b51a9bc2be96dcf61da41555ffd03b8f3770ad"
 dependencies = [
  "base32",
  "data-encoding",

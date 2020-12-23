@@ -394,7 +394,7 @@ fn run(args: clap::ArgMatches) -> Result<()> {
         cmd_convert_to_onion_keys(force, &tor_sk_path, &tor_pk_path, &tor_onion_path, &sk_path)?;
 
         Ok(())
-    } else if let Some(onion) = args.subcommand_matches("generate-child-keypair") {
+    } else if let Some(onion) = args.subcommand_matches("generate-xpriv") {
         let sk_path = get_sk_path(onion.value_of("sk_path"))?; // safe
         let force = onion.is_present("force");
         let chain = onion.value_of("chain").unwrap(); // safe
@@ -408,7 +408,7 @@ fn run(args: clap::ArgMatches) -> Result<()> {
         child_pub_path.pop();
         child_pub_path.push(SIG_DEFAULT_CHILD_PUB_FILE);
 
-        let child = slip10_derive_a_child(Some(sk), None, chain)?;
+        let child = slip10_generate_xpriv(Some(sk), None, chain)?;
 
         let KeyPair { .. } = cmd_generate(
             force,

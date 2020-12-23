@@ -100,9 +100,9 @@ SUBCOMMANDS:
     export-to-onion-keys       Convert minisign secret key to Tor hidden service keys and hostname
     export-to-tor-auth-keys    Convert minisign secret key to Tor V3 Client Authentication Keys
     generate                   Generate minisign public and secret keys
-    generate-child-keypair     Generate a child private and public key from a secret key according to SLIP010.
+    generate-xpriv             Generate extended private and public key from a secret key according to SLIP010.
                                First password will be prompted to decrypt your current secret key. Then a new
-                               password will be prompted to encrypt the child key
+                               password will be prompted to encrypt the xpriv key
     generate-did               Generate DID document from a minisign secret key
     help                       Prints this message or the help of the given subcommand(s)
     sign                       Sign a file with a given private key

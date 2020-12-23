@@ -119,8 +119,8 @@ pub fn parse_args<'a>() -> clap::ArgMatches<'a> {
                 ),
         )
         .subcommand(
-            SubCommand::with_name("generate-child-keypair")
-                .about("Generate a child private and public key from a secret key according to SLIP010. \nFirst password will be prompted to decrypt your current secret key. Then a new password will be prompted to encrypt the child key")
+            SubCommand::with_name("generate-xpriv")
+                .about("Generate a extended private and public key from a secret key according to SLIP010. \nFirst password will be prompted to decrypt your current secret key. Then a new password will be prompted to encrypt the xpriv key")
                 .arg(
                     Arg::with_name("sk_path")
                         .short("s")

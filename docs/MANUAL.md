@@ -24,10 +24,10 @@ If you want to **generate keys from a deterministic seed** you can pass a hex st
 rsign generate --seed 12a9e759cb410b4ca3a57a494939704e4bf71a59f01b94ea2740f15d3dc8f9ea
 ```
 
-Once you have a secret key generated you can also **derive its children** according to **SLIP010**:
+Once you have a secret key generated you can also **derive the extended private key** according to **SLIP010**:
 
 ```sh
-rsign generate-child-keypair --chain m/1H/0H/5H
+rsign generate-xpriv --chain m/1H/0H/5H
 ```
 
 You can then **sign a file** (`myfile.txt`) with your secret key:

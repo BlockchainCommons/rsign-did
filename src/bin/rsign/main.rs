@@ -482,6 +482,19 @@ fn run(args: clap::ArgMatches) -> Result<()> {
         println!("\nFile generated: {}", did_path.display());
 
         Ok(())
+    } else if let Some(onion) = args.subcommand_matches("convert-secret-to-jwk") {
+        let sk_path = get_sk_path(onion.value_of("sk_path"))?;
+        let sk = SecretKey::from_file(&sk_path, None)?;
+        let mut jwk_path = sk_path;
+        jwk_path.pop();
+        jwk_path.push(SIG_DEFAULT_JWK_FILE);
+        // overwrite file it it already exists
+        let did_writer = fs::File::create(jwk_path.clone()).unwrap();
+        convert_secret_to_jwk(&did_writer, sk)?;
+
+        println!("\nFile generated: {}", jwk_path.display());
+
+        Ok(())
     } else if let Some(sign_action) = args.subcommand_matches("sign") {
         let sk_path = get_sk_path(sign_action.value_of("sk_path"))?;
         let pk = if let Some(pk_inline) = sign_action.value_of("public_key") {

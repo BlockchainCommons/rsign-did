@@ -137,7 +137,7 @@ To build `torgap-sig-cli-rust` you'll need to use the following tools:
 
 These are other projects that work with or leverage `torgap-sig-cli-rust`:
 
-- N/A
+- [torgap-demo](https://github.com/BlockchainCommons/torgap-demo) - demonstration of signing and verifying files by Tor onion service
 
 ## Financial Support
 

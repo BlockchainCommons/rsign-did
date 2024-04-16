@@ -9,7 +9,7 @@ Tor onion v3 hidden service keys.
 
 Torgap-sig-cli builds on the fact that Minisig appears to be a universal donor for ed25519 signatures, usable anywhere, by a variety of different programs. This includes Tor, which uses ed25519 keys for its hidden services. Using Tor with Minisig allows for the issuance of digital signatures that enable the Tor owner to prove control, without requiring any external authorities.
 
-This has allowed for the experimental creation of `did:onion` DIDs, whoch can be used to enable verifiable decentralized digital identities and associated verifiable claims (VCs).
+This has allowed for the experimental creation of `did:onion` DIDs, which can be used to enable verifiable decentralized digital identities and associated verifiable claims (VCs).
 
 ### Why Tor?
 
@@ -118,7 +118,7 @@ In most cases, the authors, copyright, and license for each file reside in heade
 
 This table below also establishes provenance (repository of origin, permalink, and commit id) for files included from repositories that are outside of this repo. Contributors to these files are listed in the commit history for each repository, first with changes found in the commit history of this repo, then in changes in the commit history of their repo of their origin.
 
-[No external files included]
+<!--- [No external files included] -->
 
 ### Dependencies
 
